@@ -1,5 +1,7 @@
 # Nia Live Demo
 
+English | [简体中文](./README_CN.md)
+
 Nia Live is a real-time full-duplex voice companion with a full-screen interactive visual canvas. The browser captures microphone audio, renders streaming SVG/HTML, plays assistant audio with Web Audio, and shows live subtitles and voice controls.
 
 ## Architecture
@@ -19,31 +21,35 @@ Node Orchestrator (tsx, bound to 127.0.0.1:8787 by default)
   └─ Ultrafast Responses tool loop
         │
         ▼
-CLIProxyAPI (live-media-relay.enabled: true)
+CLIProxyAPI (oauth.providers.codex.live-media-relay.enabled: true)
   ├─ GPT-Live: gpt-live-1-codex (Quicksilver v2 WebRTC + Sideband)
   └─ Responses: gpt-6.1-sol or gpt-6-astra (service_tier: ultrafast)
 ```
 
-UDP ports require no client or orchestrator configuration: the server-side WebRTC peer negotiates ephemeral ICE/UDP ports with CLIProxyAPI, so applications only call the HTTP and WebSocket endpoints.
+UDP ports require no client or orchestrator configuration: the server-side WebRTC peer negotiates ephemeral local ICE/UDP ports with CLIProxyAPI, so applications only call the HTTP and WebSocket endpoints.
 
-## Quickstart
+## Prerequisites
 
-Requirements: Node.js 22+, pnpm, and a running CLIProxyAPI configured with `live-media-relay.enabled: true`.
+1. **Node.js 22+** and **pnpm** (`corepack enable`).
+2. **[CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)** (with Codex Live media relay enabled): for how to use CLIProxyAPI (and proxy setup if needed), refer to [CLIProxyAPI on GitHub](https://github.com/router-for-me/CLIProxyAPI) and its [official guides](https://help.router-for.me/).
+3. **ChatGPT Subscription Account** (connected via CLIProxyAPI Codex OAuth):
+   - Default `GPT_LIVE_SERVICE_TIER=ultrafast` (`gpt-6.1-sol` / `gpt-6-astra`) requires a **ChatGPT Pro ($500/month)** subscription.
+   - For non-$500 tiers (e.g., $200 Pro / Plus), set `GPT_LIVE_SERVICE_TIER=default` (or `priority`) in `.env`.
+
+## Quick Start
 
 ```bash
 pnpm install
 cp .env.example .env
-# fill in CLIPROXY_API_KEY
+pnpm run setup
 pnpm dev
 ```
 
-To build the frontend bundle and serve everything from the local Node orchestrator (`http://127.0.0.1:8787`):
+`pnpm dev` starts the Node orchestrator on `http://127.0.0.1:8787` and the Vite client on `http://localhost:5173`. To build the frontend bundle and serve everything from the Node server:
 
 ```bash
 pnpm build && pnpm start
 ```
-
-`pnpm run setup` interactively collects `CLIPROXY_BASE_URL` and `CLIPROXY_API_KEY`, optionally checks `/v1/models`, and writes `.env`.
 
 ## Canvas tools
 
