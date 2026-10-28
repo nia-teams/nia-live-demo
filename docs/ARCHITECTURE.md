@@ -27,4 +27,4 @@ Canvas-generated local JavaScript handles high-frequency interaction directly in
 
 ## Production hardening
 
-By default the demo binds to `127.0.0.1` and checks WebSocket upgrade origins for local use. Before exposing a deployment beyond localhost, add authentication and rate limiting around session creation and WebSocket upgrades, isolate model-generated canvas HTML/JS in a sandboxed iframe according to your threat model, and keep upstream diagnostics server-side.
+By default the demo binds to `0.0.0.0` (for mobile/tunnel testing; override with `HOST=127.0.0.1` in `.env` for loopback-only) and checks WebSocket upgrade origins against `Host` / `X-Forwarded-Host`. Before exposing a deployment publicly, add authentication and rate limiting around session creation and WebSocket upgrades, isolate model-generated canvas HTML/JS in a sandboxed iframe according to your threat model, and keep upstream diagnostics server-side.

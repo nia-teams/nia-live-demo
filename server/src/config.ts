@@ -3,15 +3,15 @@ import { fileURLToPath } from "node:url";
 
 try {
   process.loadEnvFile(fileURLToPath(new URL("../../.env", import.meta.url)));
-} catch {
-  /* deployed environments may provide ambient variables */
+} catch (err) {
+  if (!err || typeof err !== "object" || !("code" in err) || err.code !== "ENOENT") throw err;
 }
 
 const env = (name: string, fallback = ""): string => process.env[name] ?? fallback;
 const baseUrl = env("CLIPROXY_BASE_URL", "http://127.0.0.1:8317/v1").replace(/\/+$/, "");
 
 export const config = {
-  host: env("HOST", "127.0.0.1"),
+  host: env("HOST", "0.0.0.0"),
   port: Number(env("PORT", "8787")),
   gptlive: {
     baseUrl,

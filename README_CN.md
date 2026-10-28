@@ -14,7 +14,7 @@ Browser（浏览器）
   └─ Canvas Stage: 流式渲染 SVG/HTML、运行本地交互脚本、点击桥接回语音
         │
         ▼
-Node Orchestrator（默认监听 127.0.0.1:8787）
+Node Orchestrator（默认监听 0.0.0.0:8787）
   ├─ OpenAIQuicksilverAudioPeer (werift UDP + libopus-wasm)
   ├─ 200 ms 音频抖动预缓冲（最大等待 180 ms，欠载容差 40 ms）
   ├─ GPT-Live Sideband WebSocket 与实时分句投影
@@ -28,7 +28,7 @@ CLIProxyAPI (oauth.providers.codex.live-media-relay.enabled: true)
 
 ## 前置依赖
 
-1. **Node.js 22+** 与 **pnpm**（`corepack enable`）。
+1. **Node.js 20.12+**（或 22+）与 **pnpm**（`corepack enable`）。
 2. **[CLIProxyAPI](https://github.com/router-for-me/CLIProxyAPI)**（需开启 Codex 实时媒体中继）：具体使用方式（以及如需配置代理）请直接参考 [CLIProxyAPI GitHub 仓库](https://github.com/router-for-me/CLIProxyAPI)（[中文说明](https://github.com/router-for-me/CLIProxyAPI/blob/main/README_CN.md)）及其[官方用户手册](https://help.router-for.me/cn/)。
 3. **ChatGPT 订阅账号**（通过 CLIProxyAPI 的 Codex OAuth 接入）：
    - 默认 `GPT_LIVE_SERVICE_TIER=ultrafast`（`gpt-6.1-sol` / `gpt-6-astra`）需要 **ChatGPT Pro（$500/月档位）** 订阅账号。
@@ -43,11 +43,15 @@ pnpm run setup
 pnpm dev
 ```
 
-`pnpm dev` 会启动 Node 服务（`http://127.0.0.1:8787`）与 Vite 前端（`http://localhost:5173`）。若需构建前端静态产物并由单个 Node 进程统一托管：
+`pnpm dev` 会启动 Node 服务（`http://0.0.0.0:8787`）与 Vite 前端（`http://0.0.0.0:5173`）。若需构建前端静态产物并由单个 Node 进程统一托管：
 
 ```bash
 pnpm build && pnpm start
 ```
+
+### 在手机上打开体验
+
+手机浏览器（iOS Safari / Android Chrome）在非 `localhost` 地址下必须使用受信任的 **HTTPS** 链接才会开放麦克风权限（`getUserMedia` / `AudioWorklet`）——直接打开裸局域网地址（如 `http://192.168.x.x:5173`）会被浏览器禁掉麦克风，且 iOS 底层还会拦截未受信任自签名证书上的 `wss://` WebSocket。若当前运行环境未自带 HTTPS 预览域名，需通过 HTTPS 隧道暴露本地端口；具体使用方式请直接参考 [Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)、[localhost.run](https://localhost.run/docs/) 或 [VS Code 端口转发](https://code.visualstudio.com/docs/debugtest/port-forwarding) 等工具的官方文档。
 
 ## 画布工具说明
 
@@ -69,7 +73,7 @@ pnpm build && pnpm start
 
 ## 安全边界说明
 
-本仓库定位为本地开发者参考 Demo（服务端默认仅绑定 `HOST=127.0.0.1`）。浏览器端不会接触 `CLIPROXY_API_KEY`；模型生成的画布 SVG/HTML 与交互脚本直接在当前页面会话内执行以获得最低流式延迟。请勿提交 `.env`、`node_modules/` 与 `web/dist/`。
+本仓库定位为开发者参考 Demo（服务端默认监听 `HOST=0.0.0.0` 以便手机/隧道访问；如需仅限本机可在 `.env` 中设置 `HOST=127.0.0.1`）。浏览器端不会接触 `CLIPROXY_API_KEY`；模型生成的画布 SVG/HTML 与交互脚本直接在当前页面会话内执行以获得最低流式延迟。请勿提交 `.env`、`node_modules/` 与 `web/dist/`。
 
 ## 开源协议
 

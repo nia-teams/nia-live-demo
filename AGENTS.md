@@ -11,7 +11,7 @@ pnpm run build
 pnpm dev
 ```
 
-`pnpm dev` starts the Node server on `127.0.0.1:8787` and Vite on `:5173`; the Vite proxy forwards `/api` and `/ws` to Node.
+`pnpm dev` starts the Node server on `0.0.0.0:8787` and Vite on `0.0.0.0:5173`; the Vite proxy forwards `/api` and `/ws` to Node.
 
 ## Repository boundaries
 

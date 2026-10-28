@@ -115,13 +115,27 @@ async function serveStatic(res: ServerResponse, pathname: string): Promise<void>
   }
 }
 
+function matchesOriginHost(originUrl: URL, rawHost: string | string[] | undefined): boolean {
+  const first = Array.isArray(rawHost) ? rawHost[0] : rawHost;
+  const candidate = first?.split(",")[0]?.trim();
+  if (!candidate || !/^[A-Za-z0-9._:\[\]-]+$/.test(candidate)) return false;
+  try {
+    return new URL(`${originUrl.protocol}//${candidate}`).host === originUrl.host;
+  } catch {
+    return false;
+  }
+}
+
 function isAllowedUpgradeOrigin(req: IncomingMessage): boolean {
   const origin = req.headers.origin;
   if (!origin) return true;
   try {
     const originUrl = new URL(origin);
     if (LOOPBACK_HOSTS.has(originUrl.hostname)) return true;
-    return Boolean(req.headers.host && originUrl.host === req.headers.host);
+    return (
+      matchesOriginHost(originUrl, req.headers.host) ||
+      matchesOriginHost(originUrl, req.headers["x-forwarded-host"])
+    );
   } catch {
     return false;
   }

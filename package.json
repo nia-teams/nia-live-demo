@@ -16,7 +16,7 @@
     "typecheck": "pnpm -r typecheck"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=20.12.0"
   },
   "packageManager": "pnpm@9.0.0"
 }
