@@ -1,0 +1,22 @@
+{
+  "name": "nia-live-demo",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nia-teams/nia-live-demo.git"
+  },
+  "description": "Real-time full-duplex voice & interactive visual canvas companion powered by GPT-Live (Quicksilver v2 WebRTC + Sideband) and Ultrafast Responses via CLIProxyAPI.",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "dev": "node scripts/check-env.mjs && pnpm --parallel -r dev",
+    "build": "pnpm -r build",
+    "start": "node scripts/check-env.mjs && pnpm --filter server start",
+    "typecheck": "pnpm -r typecheck"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
