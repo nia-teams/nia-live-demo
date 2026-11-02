@@ -4,6 +4,12 @@
 
 Nia Live 是一个全双工实时语音 + 全屏流式交互画布（SVG/HTML）伙伴 Demo。浏览器采集麦克风音频、实时渲染流式画布并播放语音，Node 编排层通过本地 WebRTC + Sideband 连接 CLIProxyAPI，实现边聊边画、点击画布元素双向联动与随时语音打断。
 
+## 演示视频
+
+| 三蛇霓虹竞技（Autonomous 3-Snake Arena） | 赛博 DJ 节奏台（Cyber DJ Beat Pad） |
+| :---: | :---: |
+| https://github.com/user-attachments/assets/3903c800-d5a5-4e09-9119-7a3148232a44 | https://github.com/user-attachments/assets/68b917f1-1d5b-4724-95a1-4a05944957bd |
+
 ## 架构概览
 
 ```text

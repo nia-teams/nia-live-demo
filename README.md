@@ -4,6 +4,12 @@ English | [简体中文](./README_CN.md)
 
 Nia Live is a real-time full-duplex voice companion with a full-screen interactive visual canvas. The browser captures microphone audio, renders streaming SVG/HTML, plays assistant audio with Web Audio, and shows live subtitles and voice controls.
 
+## Demo Videos
+
+| Autonomous 3-Snake Neon Arena | Cyber DJ Beat Pad & Drum Machine |
+| :---: | :---: |
+| https://github.com/user-attachments/assets/3903c800-d5a5-4e09-9119-7a3148232a44 | https://github.com/user-attachments/assets/68b917f1-1d5b-4724-95a1-4a05944957bd |
+
 ## Architecture
 
 ```text
